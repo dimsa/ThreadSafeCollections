@@ -17,9 +17,10 @@ type
     procedure Remove(const AKey: TKey);
     procedure Clear;
 
-    function Items: TDictionary<TKey, TValue>;
-    procedure Unlock;
+    function ItemsCopy: TDictionary<TKey, TValue>;
+
     procedure Lock;
+    procedure Unlock;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -67,11 +68,14 @@ begin
   inherited;
 end;
 
-function TThreadDict<TKey, TValue>.Items: TDictionary<TKey, TValue>;
+function TThreadDict<TKey, TValue>.ItemsCopy: TDictionary<TKey, TValue>;
 begin
   Lock;
-  Result := TDictionary<TKey, TValue>.Create(PointerUnsafeCopy);
-  Unlock;
+  try
+    Result := TDictionary<TKey, TValue>.Create(PointerUnsafeCopy);
+  finally
+    Unlock;
+  end;
 end;
 
 procedure TThreadDict<TKey, TValue>.Lock;
@@ -81,7 +85,6 @@ end;
 
 function TThreadDict<TKey, TValue>.PointerUnsafeCopy: TDictionary<TKey, TValue>;
 begin
-  TMonitor.Enter(FLock);
   Result := FDict;
 end;
 

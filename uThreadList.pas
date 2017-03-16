@@ -6,18 +6,21 @@ uses
   System.Generics.Collections;
 
 type
-  TThreadDict<TValue> = class
+  TThreadList<TValue> = class
   private
     FList: TList<TValue>;
     FLock: TObject;
   protected
-    function PointerUnsafeLock: TList<TValue>;
+    function PointerUnsafeCopy: TList<TValue>;
   public
     procedure Add(const AValue: TValue);
     procedure Remove(const AValue: TValue);
+    procedure Delete(const AIndex: Integer);
     procedure Clear;
 
-    function Lock: TList<TValue>;
+    function ItemsCopy: TList<TValue>;
+
+    procedure Lock;
     procedure Unlock;
     constructor Create;
     destructor Destroy; override;
@@ -25,11 +28,11 @@ type
 
 implementation
 
-{ TThreadDict<TKey, TValue> }
+{ TThreadList<TValue> }
 
-procedure TThreadDict<TValue>.Add(const AValue: TValue);
+procedure TThreadList<TValue>.Add(const AValue: TValue);
 begin
-  PointerUnsafeLock;
+  Lock;
   try
     FList.Add(AValue);
   finally
@@ -37,9 +40,9 @@ begin
   end;
 end;
 
-procedure TThreadDict<TValue>.Clear;
+procedure TThreadList<TValue>.Clear;
 begin
-  PointerUnsafeLock;
+  Lock;
   try
     FList.Clear;
   finally
@@ -47,15 +50,25 @@ begin
   end;
 end;
 
-constructor TThreadDict<TValue>.Create;
+constructor TThreadList<TValue>.Create;
 begin
   FLock := TObject.Create;
   FList := TList<TValue>.Create;
 end;
 
-destructor TThreadDict<TValue>.Destroy;
+procedure TThreadList<TValue>.Delete(const AIndex: Integer);
 begin
-  PointerUnsafeLock;
+  Lock;
+  try
+    FList.Delete(AIndex);
+  finally
+    Unlock;
+  end;
+end;
+
+destructor TThreadList<TValue>.Destroy;
+begin
+  Lock;
   try
     FList.Free;
     inherited Destroy;
@@ -66,20 +79,30 @@ begin
   inherited;
 end;
 
-function TThreadDict<TValue>.Lock: TList<TValue>;
+function TThreadList<TValue>.ItemsCopy: TList<TValue>;
 begin
-  Result := TList<TValue>.Create(PointerUnsafeLock);
+  Lock;
+  try
+    Result := TList<TValue>.Create(PointerUnsafeCopy);
+  finally
+    Unlock;
+  end;
+
 end;
 
-function TThreadDict<TValue>.PointerUnsafeLock: TList<TValue>;
+procedure TThreadList<TValue>.Lock;
 begin
   TMonitor.Enter(FLock);
+end;
+
+function TThreadList<TValue>.PointerUnsafeCopy: TList<TValue>;
+begin
   Result := FList;
 end;
 
-procedure TThreadDict<TValue>.Remove(const AValue: TValue);
+procedure TThreadList<TValue>.Remove(const AValue: TValue);
 begin
-  PointerUnsafeLock;
+  Lock;
   try
     FList.Remove(AValue);
   finally
@@ -87,7 +110,7 @@ begin
   end;
 end;
 
-procedure TThreadDict<TValue>.Unlock;
+procedure TThreadList<TValue>.Unlock;
 begin
   TMonitor.Exit(FLock);
 end;

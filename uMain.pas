@@ -45,7 +45,7 @@ begin
   begin
     vTaskWrite := TTask.Create (procedure()
     begin
-      Sleep(Random(50));
+      Sleep(Random(25));
       TMonitor.Enter(vLock);
       TInterlocked.Add(vThreadIterator, 1);
       TMonitor.Exit(vLock);
@@ -60,14 +60,11 @@ var
   vDict: TDictionary<string, Integer>;
   s: string;
 begin
-  try
-  vDict := FDict.Items;
-  mmo1.Lines.Add(IntToStr(vDict.Count));
+  vDict := FDict.ItemsCopy;
+  mmo1.Lines.Add('==========' + IntToStr(vDict.Count) + '==========');
   for s in vDict.Keys do
     mmo1.Lines.Add(s + ' = ' + IntToStr(vDict[s]));
-  finally
-    FDict.Unlock;
-  end;
+
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
