@@ -11,14 +11,15 @@ type
     FDict: TDictionary<TKey, TValue>;
     FLock: TObject;
   protected
-    function PointerUnsafeLock: TDictionary<TKey, TValue>;
+    function PointerUnsafeCopy: TDictionary<TKey, TValue>;
   public
     procedure Add(const AKey: TKey; const AValue: TValue);
     procedure Remove(const AKey: TKey);
     procedure Clear;
 
-    function Lock: TDictionary<TKey, TValue>;
+    function Items: TDictionary<TKey, TValue>;
     procedure Unlock;
+    procedure Lock;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -29,7 +30,7 @@ implementation
 
 procedure TThreadDict<TKey, TValue>.Add(const AKey: TKey; const AValue: TValue);
 begin
-  PointerUnsafeLock;
+  Lock;
   try
     FDict.Add(AKey, AValue);
   finally
@@ -39,7 +40,7 @@ end;
 
 procedure TThreadDict<TKey, TValue>.Clear;
 begin
-  PointerUnsafeLock;
+  Lock;
   try
     FDict.Clear;
   finally
@@ -55,7 +56,7 @@ end;
 
 destructor TThreadDict<TKey, TValue>.Destroy;
 begin
-  PointerUnsafeLock;
+  Lock;
   try
     FDict.Free;
     inherited Destroy;
@@ -66,12 +67,19 @@ begin
   inherited;
 end;
 
-function TThreadDict<TKey, TValue>.Lock: TDictionary<TKey, TValue>;
+function TThreadDict<TKey, TValue>.Items: TDictionary<TKey, TValue>;
 begin
-  Result := TDictionary<TKey, TValue>.Create(PointerUnsafeLock);
+  Lock;
+  Result := TDictionary<TKey, TValue>.Create(PointerUnsafeCopy);
+  Unlock;
 end;
 
-function TThreadDict<TKey, TValue>.PointerUnsafeLock: TDictionary<TKey, TValue>;
+procedure TThreadDict<TKey, TValue>.Lock;
+begin
+  TMonitor.Enter(FLock);
+end;
+
+function TThreadDict<TKey, TValue>.PointerUnsafeCopy: TDictionary<TKey, TValue>;
 begin
   TMonitor.Enter(FLock);
   Result := FDict;
@@ -79,7 +87,7 @@ end;
 
 procedure TThreadDict<TKey, TValue>.Remove(const AKey: TKey);
 begin
-  PointerUnsafeLock;
+  Lock;
   try
     FDict.Remove(AKey);
   finally

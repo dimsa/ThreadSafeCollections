@@ -37,14 +37,15 @@ var
   vThreadIterator: integer;
   vTaskWrite, vTaskRead: ITask;
   vLock: TObject;
+  vList: TList<string>;
 begin
-
   vLock := TObject.Create;
   vThreadIterator := 0;
   for i := 0 to 999 do
   begin
     vTaskWrite := TTask.Create (procedure()
     begin
+      Sleep(Random(50));
       TMonitor.Enter(vLock);
       TInterlocked.Add(vThreadIterator, 1);
       TMonitor.Exit(vLock);
@@ -60,7 +61,7 @@ var
   s: string;
 begin
   try
-  vDict := FDict.Lock;
+  vDict := FDict.Items;
   mmo1.Lines.Add(IntToStr(vDict.Count));
   for s in vDict.Keys do
     mmo1.Lines.Add(s + ' = ' + IntToStr(vDict[s]));
