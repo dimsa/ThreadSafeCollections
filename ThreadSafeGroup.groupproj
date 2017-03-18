@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{8D9D8349-1B10-470C-B278-AF78971C6B85}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ThreadSafe\ThreadSafe.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Test\ThreadSafeTests.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ThreadSafe">
+        <MSBuild Projects="ThreadSafe\ThreadSafe.dproj"/>
+    </Target>
+    <Target Name="ThreadSafe:Clean">
+        <MSBuild Projects="ThreadSafe\ThreadSafe.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ThreadSafe:Make">
+        <MSBuild Projects="ThreadSafe\ThreadSafe.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ThreadSafeTests">
+        <MSBuild Projects="Test\ThreadSafeTests.dproj"/>
+    </Target>
+    <Target Name="ThreadSafeTests:Clean">
+        <MSBuild Projects="Test\ThreadSafeTests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ThreadSafeTests:Make">
+        <MSBuild Projects="Test\ThreadSafeTests.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ThreadSafe;ThreadSafeTests"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ThreadSafe:Clean;ThreadSafeTests:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ThreadSafe:Make;ThreadSafeTests:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

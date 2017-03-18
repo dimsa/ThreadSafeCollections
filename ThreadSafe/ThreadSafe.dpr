@@ -5,7 +5,8 @@ uses
   FMX.Forms,
   uMain in 'uMain.pas' {Form1},
   uThreadDict in 'uThreadDict.pas',
-  uThreadList in 'uThreadList.pas';
+  uThreadList in 'uThreadList.pas',
+  uOrderedDict in 'uOrderedDict.pas';
 
 {$R *.res}
 
