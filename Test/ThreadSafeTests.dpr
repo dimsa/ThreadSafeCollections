@@ -16,7 +16,7 @@ program ThreadSafeTests;
 
 uses
   DUnitTestRunner,
-  TestLinkedCollection in 'TestLinkedCollection.pas';
+  TestOrderedDict in 'TestOrderedDict.pas';
 
 {$R *.RES}
 

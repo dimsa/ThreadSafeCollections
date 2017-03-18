@@ -5,8 +5,8 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
-  FMX.Controls.Presentation, FMX.StdCtrls, System.Threading, uThreadDict, System.SyncObjs,
-  System.Generics.Collections, FMX.ScrollBox, FMX.Memo;
+  FMX.Controls.Presentation, FMX.StdCtrls, System.Threading, uThreadDict, uThreadOrderedDict, uOrderedDict,
+  System.SyncObjs, System.Generics.Collections, FMX.ScrollBox, FMX.Memo;
 
 type
   TForm1 = class(TForm)
@@ -19,6 +19,7 @@ type
     procedure btn2Click(Sender: TObject);
   private
     FDict: TThreadDict<string, Integer>;
+    FOrderedDict: TThreadOrderedDict<string, Integer>;
     { Private declarations }
   public
     { Public declarations }
@@ -45,11 +46,10 @@ begin
   begin
     vTaskWrite := TTask.Create (procedure()
     begin
-      Sleep(Random(25));
       TMonitor.Enter(vLock);
       TInterlocked.Add(vThreadIterator, 1);
       TMonitor.Exit(vLock);
-      FDict.Add('Key' + vThreadIterator.ToString, vThreadIterator);
+      FOrderedDict.Add('Key' + vThreadIterator.ToString, vThreadIterator);
     end);
     vTaskWrite.Start;
    end;
@@ -57,24 +57,33 @@ end;
 
 procedure TForm1.btn2Click(Sender: TObject);
 var
-  vDict: TDictionary<string, Integer>;
+  vDict: TOrderedDict<string, Integer>;
   s: string;
+  i: Integer;
 begin
-  vDict := FDict.ItemsCopy;
+  vDict := FOrderedDict.LockPointer;
   mmo1.Lines.Add('==========' + IntToStr(vDict.Count) + '==========');
-  for s in vDict.Keys do
-    mmo1.Lines.Add(s + ' = ' + IntToStr(vDict[s]));
 
+  for i := 0 to vDict.Count - 1 do
+    mmo1.Lines.Add(s + ' = ' + IntToStr(vDict[i]));
+
+{  for s in vDict.Keys do
+    mmo1.Lines.Add(s + ' = ' + IntToStr(vDict[s]));}
+  FOrderedDict.UnlockPointer;
+
+  vDict.Add('lalal', -1);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   FDict := TThreadDict<string, Integer>.Create;
+  FOrderedDict := TThreadOrderedDict<string, Integer>.Create;
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
 begin
   FDict.Free;
+  FOrderedDict.Free;
 end;
 
 end.

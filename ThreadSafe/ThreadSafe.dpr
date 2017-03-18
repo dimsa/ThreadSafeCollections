@@ -6,7 +6,8 @@ uses
   uMain in 'uMain.pas' {Form1},
   uThreadDict in 'uThreadDict.pas',
   uThreadList in 'uThreadList.pas',
-  uOrderedDict in 'uOrderedDict.pas';
+  uOrderedDict in 'uOrderedDict.pas',
+  uThreadOrderedDict in 'uThreadOrderedDict.pas';
 
 {$R *.res}
 

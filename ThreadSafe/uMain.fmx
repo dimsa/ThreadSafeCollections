@@ -11,29 +11,29 @@ object Form1: TForm1
   OnDestroy = FormDestroy
   DesignerMasterStyle = 0
   object btn1: TButton
-    Position.X = 48.000000000000000000
-    Position.Y = 32.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 16.000000000000000000
     TabOrder = 0
-    Text = 'btn1'
+    Text = 'Fill Dict'
     OnClick = btn1Click
   end
   object mmo1: TMemo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
     DataDetectorTypes = []
-    Position.X = 144.000000000000000000
-    Position.Y = 32.000000000000000000
-    Size.Width = 417.000000000000000000
-    Size.Height = 417.000000000000000000
+    Position.X = 96.000000000000000000
+    Position.Y = 16.000000000000000000
+    Size.Width = 529.000000000000000000
+    Size.Height = 449.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    Viewport.Width = 413.000000000000000000
-    Viewport.Height = 413.000000000000000000
+    Viewport.Width = 525.000000000000000000
+    Viewport.Height = 445.000000000000000000
   end
   object btn2: TButton
-    Position.X = 48.000000000000000000
-    Position.Y = 136.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 48.000000000000000000
     TabOrder = 3
-    Text = 'btn2'
+    Text = 'Print Dict'
     OnClick = btn2Click
   end
 end
