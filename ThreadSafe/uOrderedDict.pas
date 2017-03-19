@@ -15,9 +15,11 @@ type
     procedure SetItemInt(AIndex: Integer; const AValue: TValue);
     function GetItemKey(AKey: TKey): TValue;
     procedure SetItemKey(AKey: TKey; const AValue: TValue);
+    function GetKeyByIndex(AIndex: Integer): TKey;
   public
     property Item[AIndex: Integer]: TValue read GetItemInt write SetItemInt; default;
     property Item[AKey: TKey]: TValue read GetItemKey write SetItemKey; default;
+    property KeyByIndex[AIndex: Integer]: TKey read GetKeyByIndex;
     function Count: Integer;
     procedure Add(AKey: TKey; AValue: TValue);
     procedure Insert(AIndex: Integer; AKey: TKey; AValue: TValue);
@@ -90,6 +92,11 @@ end;
 function TOrderedDict<TKey, TValue>.GetItemKey(AKey: TKey): TValue;
 begin
   Result := FDict[AKey];
+end;
+
+function TOrderedDict<TKey, TValue>.GetKeyByIndex(AIndex: Integer): TKey;
+begin
+  Result := FLinks[AIndex];
 end;
 
 function TOrderedDict<TKey, TValue>.IndexOf(AKey: TKey): Integer;

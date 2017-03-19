@@ -33,6 +33,7 @@ type
     procedure TestInsertAtStart;
     procedure TestInsertAtEnd;
     procedure TestContainsKey;
+    procedure TestKeyByIndex;
     procedure TestNotContainsKey;
     procedure TestContainsValue;
     procedure TestNotContainsValue;
@@ -229,6 +230,17 @@ begin
     (FOrderedDict.ContainsKey('Key0')) and
     (FOrderedDict.ContainsKey('Key1')) and
     (FOrderedDict.ContainsKey(AKey))
+  );
+end;
+
+procedure TestTOrderedDict.TestKeyByIndex;
+begin
+  FillDictWithCount(FOrderedDict, 10);
+
+  Check(
+    (FOrderedDict.KeyByIndex[0] = 'Key0') and
+    (FOrderedDict.KeyByIndex[9] = 'Key9') and
+    (FOrderedDict.KeyByIndex[5] = 'Key5')
   );
 end;
 

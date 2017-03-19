@@ -65,13 +65,10 @@ begin
   mmo1.Lines.Add('==========' + IntToStr(vDict.Count) + '==========');
 
   for i := 0 to vDict.Count - 1 do
-    mmo1.Lines.Add(s + ' = ' + IntToStr(vDict[i]));
+    mmo1.Lines.Add(vDict.KeyByIndex[i] + ' = ' + IntToStr(vDict['Key' + IntToStr(i + 1)]));
+//    mmo1.Lines.Add(vDict.KeyByIndex[i] + ' = ' + IntToStr(vDict[i]));
 
-{  for s in vDict.Keys do
-    mmo1.Lines.Add(s + ' = ' + IntToStr(vDict[s]));}
   FOrderedDict.UnlockPointer;
-
-  vDict.Add('lalal', -1);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
