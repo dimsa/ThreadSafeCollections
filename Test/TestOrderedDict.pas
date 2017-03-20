@@ -39,6 +39,7 @@ type
     procedure TestNotContainsValue;
     procedure TestIndexOf;
     procedure TestRemove;
+    procedure TestClear;
     procedure TestRemoveAllValues;
     procedure TestDelete;
   end;
@@ -68,6 +69,16 @@ procedure TestTOrderedDict.TearDown;
 begin
   FOrderedDict.Free;
   FOrderedDict := nil;
+end;
+
+procedure TestTOrderedDict.TestClear;
+begin
+  FillDictWithCount(FOrderedDict, 10);
+  FOrderedDict.Clear;
+
+  Check(
+    FOrderedDict.Count = 0
+  );
 end;
 
 procedure TestTOrderedDict.TestContainsKey;

@@ -19,6 +19,11 @@ type
     procedure Remove(AKey: TKey);
     procedure RemoveAllValues(AValue: TValue);
     procedure Delete(AIndex: Integer);
+    procedure Clear;
+
+    function ContainsKey(AKey: TKey): Boolean;
+    function ContainsValue(AValue: TValue): Boolean;
+    function Count: Integer;
 
     function LockPointer: TOrderedDict<TKey,TValue>;
     procedure UnlockPointer;
@@ -36,6 +41,47 @@ begin
   Lock;
   try
     FDict.Add(AKey, AValue);
+  finally
+    Unlock;
+  end;
+end;
+
+procedure TThreadOrderedDict<TKey, TValue>.Clear;
+begin
+  Lock;
+  try
+    FDict.Clear;
+  finally
+    Unlock;
+  end;
+end;
+
+function TThreadOrderedDict<TKey, TValue>.ContainsKey(AKey: TKey): Boolean;
+begin
+  Lock;
+  try
+    Result := FDict.ContainsKey(AKey);
+  finally
+    Unlock;
+  end;
+end;
+
+function TThreadOrderedDict<TKey, TValue>.ContainsValue(
+  AValue: TValue): Boolean;
+begin
+  Lock;
+  try
+    Result := FDict.ContainsValue(AValue);
+  finally
+    Unlock;
+  end;
+end;
+
+function TThreadOrderedDict<TKey, TValue>.Count: Integer;
+begin
+  Lock;
+  try
+    Result := FDict.Count;
   finally
     Unlock;
   end;

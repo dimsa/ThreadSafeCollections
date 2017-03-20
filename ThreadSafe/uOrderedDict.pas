@@ -26,6 +26,7 @@ type
     procedure Remove(AKey: TKey);
     procedure RemoveAllValues(AValue: TValue);
     procedure Delete(AIndex: Integer);
+    procedure Clear;
     function ContainsKey(AKey: TKey): Boolean;
     function ContainsValue(AValue: TValue): Boolean;
     function IndexOf(AKey: TKey): Integer;
@@ -42,6 +43,13 @@ begin
   FDict.Add(AKey, AValue);
   FOrderedList.Add(AValue);
   FLinks.Add(AKey);
+end;
+
+procedure TOrderedDict<TKey, TValue>.Clear;
+begin
+  FDict.Clear;
+  FOrderedList.Clear;
+  FLinks.Clear;
 end;
 
 function TOrderedDict<TKey, TValue>.ContainsKey(AKey: TKey): Boolean;
