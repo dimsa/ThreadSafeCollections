@@ -20,10 +20,18 @@ type
     procedure RemoveAllValues(AValue: TValue);
     procedure Delete(AIndex: Integer);
     procedure Clear;
+    procedure SetValueByIndex(const AIndex: Integer; const AValue: TValue);
+    procedure SetValueByKey(const AKey: TKey; const AValue: TValue);
 
+    // vvv Non-blocking methods vvv
     function ContainsKey(AKey: TKey): Boolean;
     function ContainsValue(AValue: TValue): Boolean;
+
+    function TryGetValueByIndex(const AIndex: Integer; out AValue: TValue): Boolean;
+    function TryGetValueByKey(const AKey: TKey; out AValue: TValue): Boolean;
+
     function Count: Integer;
+    // ^^^ Non-blocking methods ^^^
 
     function LockPointer: TOrderedDict<TKey,TValue>;
     procedure UnlockPointer;
@@ -58,32 +66,29 @@ end;
 
 function TThreadOrderedDict<TKey, TValue>.ContainsKey(AKey: TKey): Boolean;
 begin
-  Lock;
   try
-    Result := FDict.ContainsKey(AKey);
-  finally
-    Unlock;
+    Exit(FDict.ContainsKey(AKey));
+  except
+    Exit(False);
   end;
 end;
 
 function TThreadOrderedDict<TKey, TValue>.ContainsValue(
   AValue: TValue): Boolean;
 begin
-  Lock;
   try
-    Result := FDict.ContainsValue(AValue);
-  finally
-    Unlock;
+    Exit(FDict.ContainsValue(AValue));
+  except
+    Exit(False);
   end;
 end;
 
 function TThreadOrderedDict<TKey, TValue>.Count: Integer;
 begin
-  Lock;
   try
-    Result := FDict.Count;
-  finally
-    Unlock;
+    Exit(FDict.Count);
+  except
+    Exit(0);
   end;
 end;
 
@@ -97,7 +102,8 @@ procedure TThreadOrderedDict<TKey, TValue>.Delete(AIndex: Integer);
 begin
   Lock;
   try
-    FDict.Delete(AIndex);
+    if FDict.Count > AIndex then
+      FDict.Delete(AIndex);
   finally
     Unlock;
   end;
@@ -114,6 +120,47 @@ begin
     FLock.Free;
   end;
   inherited;
+end;
+
+function TThreadOrderedDict<TKey, TValue>.TryGetValueByIndex(
+  const AIndex: Integer; out AValue: TValue): Boolean;
+begin
+  try
+    AValue := FDict.Item[AIndex];
+    Exit(True);
+  except
+    Exit(False);
+  end;
+end;
+
+function TThreadOrderedDict<TKey, TValue>.TryGetValueByKey(const AKey: TKey; out AValue: TValue): Boolean;
+begin
+  try
+    AValue := FDict.Item[AKey];
+    Exit(True);
+  except
+    Exit(False);
+  end;
+end;
+
+procedure TThreadOrderedDict<TKey, TValue>.SetValueByIndex(const AIndex: Integer; const AValue: TValue);
+begin
+  Lock;
+  try
+    FDict.Item[AIndex] := AValue;
+  finally
+    Unlock;
+  end;
+end;
+
+procedure TThreadOrderedDict<TKey, TValue>.SetValueByKey(const AKey: TKey; const AValue: TValue);
+begin
+  Lock;
+  try
+    FDict.Item[AKey] := AValue;
+  finally
+    Unlock;
+  end;
 end;
 
 procedure TThreadOrderedDict<TKey, TValue>.Insert(AIndex: Integer; AKey: TKey; AValue: TValue);
@@ -141,7 +188,8 @@ procedure TThreadOrderedDict<TKey, TValue>.Remove(AKey: TKey);
 begin
   Lock;
   try
-    FDict.Remove(AKey);
+    if (FDict.ContainsKey(AKey)) then
+      FDict.Remove(AKey);
   finally
     Unlock;
   end;
@@ -160,7 +208,6 @@ end;
 procedure TThreadOrderedDict<TKey, TValue>.Unlock;
 begin
   TMonitor.Exit(FLock);
-
 end;
 
 procedure TThreadOrderedDict<TKey, TValue>.UnlockPointer;

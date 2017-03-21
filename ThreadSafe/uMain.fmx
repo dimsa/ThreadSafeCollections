@@ -13,6 +13,9 @@ object Form1: TForm1
   object btn1: TButton
     Position.X = 8.000000000000000000
     Position.Y = 16.000000000000000000
+    Size.Width = 127.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
     TabOrder = 0
     Text = 'Fill Dict'
     OnClick = btn1Click
@@ -20,20 +23,43 @@ object Form1: TForm1
   object mmo1: TMemo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
     DataDetectorTypes = []
-    Position.X = 96.000000000000000000
+    Position.X = 144.000000000000000000
     Position.Y = 16.000000000000000000
-    Size.Width = 529.000000000000000000
+    Size.Width = 481.000000000000000000
     Size.Height = 449.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    Viewport.Width = 525.000000000000000000
+    Viewport.Width = 477.000000000000000000
     Viewport.Height = 445.000000000000000000
   end
   object btn2: TButton
     Position.X = 8.000000000000000000
     Position.Y = 48.000000000000000000
+    Size.Width = 127.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
     TabOrder = 3
     Text = 'Print Dict'
     OnClick = btn2Click
+  end
+  object btn3: TButton
+    Position.X = 8.000000000000000000
+    Position.Y = 80.000000000000000000
+    Size.Width = 127.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 5
+    Text = 'SpeedTest'
+    OnClick = btn3Click
+  end
+  object Button1: TButton
+    Position.X = 8.000000000000000000
+    Position.Y = 112.000000000000000000
+    Size.Width = 127.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+    Text = 'Remove-Read Test'
+    OnClick = Button1Click
   end
 end
