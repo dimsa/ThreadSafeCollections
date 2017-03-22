@@ -77,7 +77,7 @@ end;
 procedure TForm1.btn3Click(Sender: TObject);
 var
   i: Integer;
-  vThreadIterator1, vThreadIterator2, vThreadIterator3: integer;
+  vThreadIterator1, vThreadIterator2: integer;
   vTaskWrite, vTaskRead: ITask;
   vLock: TObject;
   vRes: Integer;
@@ -88,7 +88,6 @@ begin
   vLock := TObject.Create;
   vThreadIterator1 := 0;
   vThreadIterator2 := 0;
-  vThreadIterator3 := 0;
   vSumTime := 0;
   vSumReadTime := 0;
   vA := 0;
@@ -141,7 +140,7 @@ procedure TForm1.Button1Click(Sender: TObject);
 var
   i: Integer;
   vThreadIterator2, vThreadIterator3: integer;
-  vTaskWrite, vTaskRead, vTaskDelete: ITask;
+  vTaskRead, vTaskDelete: ITask;
   vLock: TObject;
   vRes: Integer;
 begin

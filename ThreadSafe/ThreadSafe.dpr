@@ -4,10 +4,10 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   uMain in 'uMain.pas' {Form1},
-  uThreadDict in 'uThreadDict.pas',
-  uThreadList in 'uThreadList.pas',
-  uOrderedDict in 'uOrderedDict.pas',
-  uThreadOrderedDict in 'uThreadOrderedDict.pas';
+  uThreadDict in 'ThreadSafeCollections\uThreadDict.pas',
+  uThreadList in 'ThreadSafeCollections\uThreadList.pas',
+  uThreadOrderedDict in 'ThreadSafeCollections\uThreadOrderedDict.pas',
+  uOrderedDict in 'BaseCollections\uOrderedDict.pas';
 
 {$R *.res}
 
