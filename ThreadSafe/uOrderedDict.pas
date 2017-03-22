@@ -30,6 +30,7 @@ type
     function ContainsKey(AKey: TKey): Boolean;
     function ContainsValue(AValue: TValue): Boolean;
     function IndexOf(AKey: TKey): Integer;
+    procedure Move(const ACurIndex, ANewIndex: Integer);
     constructor Create;
     destructor Destroy; override;
   end;
@@ -117,6 +118,12 @@ begin
   FOrderedList.Insert(AIndex, AValue);
   FLinks.Insert(AIndex, AKey);
   FDict.Add(AKey, AValue);
+end;
+
+procedure TOrderedDict<TKey, TValue>.Move(const ACurIndex, ANewIndex: Integer);
+begin
+  FOrderedList.Move(ACurIndex, ANewIndex);
+  FLinks.Move(ACurIndex, ANewIndex);
 end;
 
 procedure TOrderedDict<TKey, TValue>.Remove(AKey: TKey);

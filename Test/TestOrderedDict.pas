@@ -42,6 +42,7 @@ type
     procedure TestClear;
     procedure TestRemoveAllValues;
     procedure TestDelete;
+    procedure TestMove;
   end;
 
 implementation
@@ -252,6 +253,25 @@ begin
     (FOrderedDict.KeyByIndex[0] = 'Key0') and
     (FOrderedDict.KeyByIndex[9] = 'Key9') and
     (FOrderedDict.KeyByIndex[5] = 'Key5')
+  );
+end;
+
+procedure TestTOrderedDict.TestMove;
+var
+  vZero, vOne, vNine: TOBject;
+begin
+  FillDictWithCount(FOrderedDict, 10);
+
+  vZero := FOrderedDict[0];
+  vOne := FOrderedDict[1];
+  vNine := FOrderedDict[9];
+
+  FOrderedDict.Move(0, 9);
+
+  Check(
+    (vZero = FOrderedDict[9]) and
+    (vNine = FOrderedDict[8]) and
+    (vOne = FOrderedDict[0])
   );
 end;
 

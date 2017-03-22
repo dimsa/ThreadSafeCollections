@@ -20,6 +20,7 @@ type
     procedure RemoveAllValues(AValue: TValue);
     procedure Delete(AIndex: Integer);
     procedure Clear;
+    procedure Move(const ACurIndex, ANewIndex: Integer);
     procedure SetValueByIndex(const AIndex: Integer; const AValue: TValue);
     procedure SetValueByKey(const AKey: TKey; const AValue: TValue);
 
@@ -29,6 +30,7 @@ type
 
     function TryGetValueByIndex(const AIndex: Integer; out AValue: TValue): Boolean;
     function TryGetValueByKey(const AKey: TKey; out AValue: TValue): Boolean;
+    function IndexOf(const AKey: TKey): Integer;
 
     function Count: Integer;
     // ^^^ Non-blocking methods ^^^
@@ -163,6 +165,11 @@ begin
   end;
 end;
 
+function TThreadOrderedDict<TKey, TValue>.IndexOf(const AKey: TKey): Integer;
+begin
+  Exit(FDict.IndexOf(AKey));
+end;
+
 procedure TThreadOrderedDict<TKey, TValue>.Insert(AIndex: Integer; AKey: TKey; AValue: TValue);
 begin
   Lock;
@@ -182,6 +189,17 @@ function TThreadOrderedDict<TKey, TValue>.LockPointer: TOrderedDict<TKey, TValue
 begin
   Lock;
   Result := FDict;
+end;
+
+procedure TThreadOrderedDict<TKey, TValue>.Move(const ACurIndex,
+  ANewIndex: Integer);
+begin
+  Lock;
+  try
+    FDict.Move(ACurIndex, ANewIndex);
+  finally
+    Unlock;
+  end;
 end;
 
 procedure TThreadOrderedDict<TKey, TValue>.Remove(AKey: TKey);
