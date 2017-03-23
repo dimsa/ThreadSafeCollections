@@ -65,7 +65,6 @@ begin
     Unlock;
     FLock.Free;
   end;
-  inherited;
 end;
 
 function TThreadDict<TKey, TValue>.ItemsCopy: TDictionary<TKey, TValue>;

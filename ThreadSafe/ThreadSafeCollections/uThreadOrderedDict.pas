@@ -121,7 +121,6 @@ begin
     Unlock;
     FLock.Free;
   end;
-  inherited;
 end;
 
 function TThreadOrderedDict<TKey, TValue>.TryGetValueByIndex(

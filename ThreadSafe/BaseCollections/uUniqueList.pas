@@ -111,8 +111,7 @@ procedure TUniqueList<T>.Remove(AItem: T);
 var
   vInd: Integer;
   i: Integer;
-  vItem: TObject;
-  u: Integer;
+  vItem: T;
 begin
   vInd := FDict[AItem];
   FDict.Remove(AItem);
@@ -120,7 +119,7 @@ begin
 
   for vItem in FDict.Keys do
     if FDict[vItem] > vInd then
-      Dec(vItem);
+      FDict[vItem] := FDict[vItem] - 1;
 
   {  for i := vInd to FList.Count - 1 do
       Dec(FDict[FList[i]]); }

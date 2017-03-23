@@ -76,7 +76,6 @@ begin
     Unlock;
     FLock.Free;
   end;
-  inherited;
 end;
 
 function TThreadList<TValue>.ItemsCopy: TList<TValue>;
