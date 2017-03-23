@@ -7,7 +7,8 @@ uses
   uThreadDict in 'ThreadSafeCollections\uThreadDict.pas',
   uThreadList in 'ThreadSafeCollections\uThreadList.pas',
   uThreadOrderedDict in 'ThreadSafeCollections\uThreadOrderedDict.pas',
-  uOrderedDict in 'BaseCollections\uOrderedDict.pas';
+  uOrderedDict in 'BaseCollections\uOrderedDict.pas',
+  uUniqueList in 'BaseCollections\uUniqueList.pas';
 
 {$R *.res}
 
