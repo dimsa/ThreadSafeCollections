@@ -23,7 +23,7 @@ type
     procedure Clear;
     procedure Move(const ACurIndex, ANewIndex: Integer);
 
-    property Items[AIndex: Integer]: T read GetItem write SetItem;
+    property Items[AIndex: Integer]: T read GetItem write SetItem; default;
     function Contains(const AItem: T): Boolean;
     function IndexOf(const AItem: T): Integer;
     function Count: Integer;

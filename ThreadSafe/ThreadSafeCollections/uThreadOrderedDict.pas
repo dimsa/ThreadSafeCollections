@@ -123,8 +123,7 @@ begin
   end;
 end;
 
-function TThreadOrderedDict<TKey, TValue>.TryGetValueByIndex(
-  const AIndex: Integer; out AValue: TValue): Boolean;
+function TThreadOrderedDict<TKey, TValue>.TryGetValueByIndex(const AIndex: Integer; out AValue: TValue): Boolean;
 begin
   try
     AValue := FDict.Item[AIndex];

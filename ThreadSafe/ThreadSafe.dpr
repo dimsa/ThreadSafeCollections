@@ -8,7 +8,8 @@ uses
   uThreadList in 'ThreadSafeCollections\uThreadList.pas',
   uThreadOrderedDict in 'ThreadSafeCollections\uThreadOrderedDict.pas',
   uOrderedDict in 'BaseCollections\uOrderedDict.pas',
-  uUniqueList in 'BaseCollections\uUniqueList.pas';
+  uUniqueList in 'BaseCollections\uUniqueList.pas',
+  uThreadUniqueList in 'ThreadSafeCollections\uThreadUniqueList.pas';
 
 {$R *.res}
 
