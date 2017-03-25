@@ -35,6 +35,7 @@ type
     function Count: Integer;
     // ^^^ Non-blocking methods ^^^
 
+    // It is not threadsave if you use pointer after Unlocking
     function LockPointer: TOrderedDict<TKey,TValue>;
     procedure UnlockPointer;
 

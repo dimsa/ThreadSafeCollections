@@ -52,7 +52,6 @@ end;
 
 procedure TestTUniqueList.TestAdd;
 var
-  vItem: string;
   i: Integer;
 begin
   for i := 0 to 4 do
@@ -65,8 +64,6 @@ end;
 
 procedure TestTUniqueList.TestInsert;
 var
-  AItem: string;
-  AIndex: Integer;
   i: Integer;
 begin
   FUniqueList.Insert(0, 'Item1');
@@ -82,7 +79,6 @@ end;
 
 procedure TestTUniqueList.TestRemove;
 var
-  AItem: string;
   i: Integer;
 begin
   for i := 0 to 4 do
@@ -101,8 +97,6 @@ end;
 
 procedure TestTUniqueList.TestDelete;
 var
-  AIndex: Integer;
-  AItem: string;
   i: Integer;
 begin
   for i := 0 to 4 do

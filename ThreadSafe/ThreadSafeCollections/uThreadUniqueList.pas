@@ -30,6 +30,7 @@ type
     function Count: Integer;
     // ^^^ Non-blocking methods ^^^
 
+    // It's is not threadsave if you use pointer after Unlocking
     function LockPointer: TUniqueList<T>;
     procedure UnlockPointer;
 
