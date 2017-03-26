@@ -95,6 +95,7 @@
         </DelphiCompile>
         <DCCReference Include="TestOrderedDict.pas"/>
         <DCCReference Include="TestUniqueList.pas"/>
+        <DCCReference Include="TestThreadList.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

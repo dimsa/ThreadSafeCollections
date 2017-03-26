@@ -28,8 +28,8 @@ type
     procedure TestInsert;
     procedure TestRemove;
     procedure TestDelete;
-    procedure TestSwap;
-    procedure TestSwap1;
+    procedure TestSwapByIndex;
+    procedure TestSwapByObject;
     procedure TestClear;
     procedure TestMove;
     procedure TestContains;
@@ -113,7 +113,7 @@ begin
   CheckEquals(FUniqueList[3], 'Item4');
 end;
 
-procedure TestTUniqueList.TestSwap;
+procedure TestTUniqueList.TestSwapByIndex;
 var
   i: Integer;
 begin
@@ -129,7 +129,7 @@ begin
   CheckEquals(FUniqueList[4], 'Item4');
 end;
 
-procedure TestTUniqueList.TestSwap1;
+procedure TestTUniqueList.TestSwapByObject;
 var
   i: Integer;
 begin

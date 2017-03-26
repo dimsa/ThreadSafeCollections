@@ -17,7 +17,8 @@ program ThreadSafeTests;
 uses
   DUnitTestRunner,
   TestOrderedDict in 'TestOrderedDict.pas',
-  TestUniqueList in 'TestUniqueList.pas';
+  TestUniqueList in 'TestUniqueList.pas',
+  TestThreadList in 'TestThreadList.pas';
 
 {$R *.RES}
 
